@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Event Form</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+<nav>
+
+    <h2>EventSphere Admin</h2>
+
+    <div>
+        <a href="/admin/dashboard">Dashboard</a>
+        <a href="/admin/events">Events</a>
+        <a href="/logout">Logout</a>
+    </div>
+
+</nav>
+
+<div class="form-container">
+
+    <h1>Event Details</h1>
+
+    <form
+        th:action="@{/admin/events/save}"
+        th:object="${event}"
+        method="post">
+
+        <input
+            type="hidden"
+            th:field="*{id}">
+
+        <label>Event Name</label>
+
+        <input
+            type="text"
+            th:field="*{eventName}"
+            required>
+
+        <label>Description</label>
+
+        <textarea
+            th:field="*{description}"
+            required>
+        </textarea>
+
+        <label>Category</label>
+
+        <input
+            type="text"
+            th:field="*{category}"
+            required>
+
+        <label>Venue</label>
+
+        <input
+            type="text"
+            th:field="*{venue}"
+            required>
+
+        <label>Event Date</label>
+
+        <input
+            type="date"
+            th:field="*{eventDate}"
+            required>
+
+        <label>Maximum Participants</label>
+
+        <input
+            type="number"
+            min="1"
+            th:field="*{maxParticipants}"
+            required>
+
+        <label>Status</label>
+
+        <select th:field="*{status}">
+
+            <option value="OPEN">
+                OPEN
+            </option>
+
+            <option value="CLOSED">
+                CLOSED
+            </option>
+
+            <option value="COMPLETED">
+                COMPLETED
+            </option>
+
+        </select>
+
+        <button type="submit">
+            Save Event
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

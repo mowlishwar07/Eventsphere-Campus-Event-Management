@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Student Dashboard - EventSphere</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+<nav>
+
+    <h2>EventSphere</h2>
+
+    <div>
+        <a href="/student/events">Discover Events</a>
+        <a href="/student/registrations">My Events</a>
+        <a href="/logout">Logout</a>
+    </div>
+
+</nav>
+
+<div class="container">
+
+    <div class="page-heading">
+
+        <h1>
+            Hi,
+            <span th:text="${user.name}"></span>
+            👋
+        </h1>
+
+        <p>
+            Explore what's happening around your campus.
+        </p>
+
+    </div>
+
+
+    <div class="cards">
+
+        <a href="/student/events"
+           class="card">
+
+            <div class="card-icon">
+                ◈
+            </div>
+
+            <h2>Discover Events</h2>
+
+            <p>
+                Explore workshops, hackathons,
+                competitions and campus activities.
+            </p>
+
+        </a>
+
+
+        <a href="/student/registrations"
+           class="card">
+
+            <div class="card-icon">
+                ✓
+            </div>
+
+            <h2>My Registrations</h2>
+
+            <p>
+                View and manage events that
+                you have registered for.
+            </p>
+
+        </a>
+
+
+        <div class="card">
+
+            <div class="card-icon">
+                ◉
+            </div>
+
+            <h2>My Profile</h2>
+
+            <p>
+                <strong>Department</strong><br>
+                <span th:text="${user.department}"></span>
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

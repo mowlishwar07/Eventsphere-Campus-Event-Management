@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Admin Dashboard - EventSphere</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+<nav>
+
+    <h2>EventSphere Admin</h2>
+
+    <div>
+        <a href="/admin/events">Manage Events</a>
+        <a href="/admin/registrations">Registrations</a>
+        <a href="/logout">Logout</a>
+    </div>
+
+</nav>
+
+<div class="container">
+
+    <div class="page-heading">
+
+        <h1>Admin Dashboard</h1>
+
+        <p>
+            Manage campus events and student registrations.
+        </p>
+
+    </div>
+
+
+    <div class="cards">
+
+        <a href="/admin/events/new"
+           class="card">
+
+            <div class="card-icon">
+                ＋
+            </div>
+
+            <h2>Create Event</h2>
+
+            <p>
+                Publish a new event for
+                students on campus.
+            </p>
+
+        </a>
+
+
+        <a href="/admin/events"
+           class="card">
+
+            <div class="card-icon">
+                ◫
+            </div>
+
+            <h2>Manage Events</h2>
+
+            <p>
+                Edit, update, close or
+                remove existing events.
+            </p>
+
+        </a>
+
+
+        <a href="/admin/registrations"
+           class="card">
+
+            <div class="card-icon">
+                ◎
+            </div>
+
+            <h2>Registrations</h2>
+
+            <p>
+                View students registered
+                across all campus events.
+            </p>
+
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

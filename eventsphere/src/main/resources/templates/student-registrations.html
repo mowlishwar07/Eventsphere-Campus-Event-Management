@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>My Registrations</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+<nav>
+
+    <h2>EventSphere</h2>
+
+    <div>
+        <a href="/student/dashboard">Dashboard</a>
+        <a href="/student/events">Events</a>
+        <a href="/logout">Logout</a>
+    </div>
+
+</nav>
+
+<div class="container">
+
+    <h1>My Registrations</h1>
+
+    <p class="success"
+       th:if="${success}"
+       th:text="${success}">
+    </p>
+
+    <table>
+
+        <thead>
+
+        <tr>
+            <th>Event</th>
+            <th>Date</th>
+            <th>Venue</th>
+            <th>Registered On</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+        <tr th:each="registration : ${registrations}">
+
+            <td th:text="${registration.event.eventName}"></td>
+
+            <td th:text="${registration.event.eventDate}"></td>
+
+            <td th:text="${registration.event.venue}"></td>
+
+            <td th:text="${registration.registrationDate}"></td>
+
+            <td th:text="${registration.status}"></td>
+
+            <td>
+
+                <form
+                    th:if="${registration.status.name() == 'REGISTERED'}"
+                    th:action="@{/student/registrations/{id}/cancel(id=${registration.id})}"
+                    method="post">
+
+                    <button class="danger"
+                            type="submit">
+
+                        Cancel
+
+                    </button>
+
+                </form>
+
+            </td>
+
+        </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+</body>
+</html>

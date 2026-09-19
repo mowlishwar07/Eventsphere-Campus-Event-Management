@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>EventSphere</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<nav>
+
+    <h2>EventSphere</h2>
+
+    <div>
+        <a href="/login">Student Login</a>
+        <a href="/register">Sign Up</a>
+        <a href="/admin/login">Admin</a>
+    </div>
+
+</nav>
+
+
+<section class="hero">
+
+    <div class="hero-badge">
+        CAMPUS EVENTS • ONE PLATFORM
+    </div>
+
+    <h1>EventSphere</h1>
+
+    <h2>
+        Discover. Participate. Connect.
+    </h2>
+
+    <p>
+        Your central platform for discovering campus events,
+        registering for competitions, workshops and activities,
+        and managing everything from one place.
+    </p>
+
+    <div class="hero-actions">
+
+        <a href="/register"
+           class="btn">
+            Create Account
+        </a>
+
+        <a href="/login"
+           class="btn btn-secondary">
+            Student Login
+        </a>
+
+        <a href="/admin/login"
+           class="btn btn-secondary">
+            Admin Portal
+        </a>
+
+    </div>
+
+</section>
+
+</body>
+</html>

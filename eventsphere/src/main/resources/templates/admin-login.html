@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Admin Portal - EventSphere</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div class="form-page">
+
+    <div class="form-container">
+
+        <div class="form-logo">
+            A
+        </div>
+
+        <h1>Admin Portal</h1>
+
+        <h2>
+            Manage EventSphere events and registrations
+        </h2>
+
+        <p class="error"
+           th:if="${error}"
+           th:text="${error}">
+        </p>
+
+        <form
+                action="/admin/login"
+                method="post">
+
+            <label>Admin Email</label>
+
+            <input
+                    type="email"
+                    name="email"
+                    placeholder="admin@eventsphere.com"
+                    required>
+
+            <label>Password</label>
+
+            <input
+                    type="password"
+                    name="password"
+                    placeholder="Enter admin password"
+                    required>
+
+            <button type="submit">
+                Enter Admin Dashboard
+            </button>
+
+        </form>
+
+        <p>
+            Student account?
+            <a href="/login">
+                Student Login
+            </a>
+        </p>
+
+        <p>
+            <a href="/">
+                ← Return to Home
+            </a>
+        </p>
+
+    </div>
+
+</div>
+
+</body>
+</html>

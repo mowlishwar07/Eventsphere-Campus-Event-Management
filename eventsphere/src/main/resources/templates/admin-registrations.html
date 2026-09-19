@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Registrations</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+<nav>
+
+    <h2>EventSphere Admin</h2>
+
+    <div>
+        <a href="/admin/dashboard">Dashboard</a>
+        <a href="/admin/events">Events</a>
+        <a href="/logout">Logout</a>
+    </div>
+
+</nav>
+
+<div class="container">
+
+    <h1>All Registrations</h1>
+
+    <table>
+
+        <thead>
+
+        <tr>
+            <th>Student</th>
+            <th>Email</th>
+            <th>Department</th>
+            <th>Event</th>
+            <th>Date</th>
+            <th>Status</th>
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+        <tr th:each="registration : ${registrations}">
+
+            <td th:text="${registration.user.name}"></td>
+
+            <td th:text="${registration.user.email}"></td>
+
+            <td th:text="${registration.user.department}"></td>
+
+            <td th:text="${registration.event.eventName}"></td>
+
+            <td th:text="${registration.registrationDate}"></td>
+
+            <td th:text="${registration.status}"></td>
+
+        </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+</body>
+</html>

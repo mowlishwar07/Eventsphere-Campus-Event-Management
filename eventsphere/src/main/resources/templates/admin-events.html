@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Manage Events</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+<nav>
+
+    <h2>EventSphere Admin</h2>
+
+    <div>
+        <a href="/admin/dashboard">Dashboard</a>
+        <a href="/admin/events/new">Create Event</a>
+        <a href="/admin/registrations">Registrations</a>
+        <a href="/logout">Logout</a>
+    </div>
+
+</nav>
+
+<div class="container">
+
+    <h1>Manage Events</h1>
+
+    <p class="success"
+       th:if="${success}"
+       th:text="${success}">
+    </p>
+
+    <table>
+
+        <thead>
+
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Venue</th>
+            <th>Date</th>
+            <th>Capacity</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+        <tr th:each="event : ${events}">
+
+            <td th:text="${event.eventName}"></td>
+
+            <td th:text="${event.category}"></td>
+
+            <td th:text="${event.venue}"></td>
+
+            <td th:text="${event.eventDate}"></td>
+
+            <td th:text="${event.maxParticipants}"></td>
+
+            <td th:text="${event.status}"></td>
+
+            <td>
+
+                <a
+                    th:href="@{/admin/events/edit/{id}(id=${event.id})}">
+                    Edit
+                </a>
+
+                |
+
+                <a
+                    th:href="@{/admin/events/{id}/registrations(id=${event.id})}">
+                    Students
+                </a>
+
+                |
+
+                <a
+                    th:href="@{/admin/events/delete/{id}(id=${event.id})}"
+                    onclick="return confirm('Delete this event?')">
+                    Delete
+                </a>
+
+            </td>
+
+        </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+</body>
+</html>

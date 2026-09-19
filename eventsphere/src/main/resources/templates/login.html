@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Student Login - EventSphere</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div class="form-page">
+
+    <div class="form-container">
+
+        <div class="form-logo">
+            E
+        </div>
+
+        <h1>Welcome Back</h1>
+
+        <h2>
+            Login to your EventSphere student account
+        </h2>
+
+        <p class="success"
+           th:if="${param.registered}">
+
+            Account created successfully.
+            You can login now.
+
+        </p>
+
+        <p class="error"
+           th:if="${error}"
+           th:text="${error}">
+        </p>
+
+        <form action="/login"
+              method="post">
+
+            <label>Email Address</label>
+
+            <input
+                    type="email"
+                    name="email"
+                    placeholder="student@example.com"
+                    required>
+
+            <label>Password</label>
+
+            <input
+                    type="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    required>
+
+            <button type="submit">
+                Login to EventSphere
+            </button>
+
+        </form>
+
+        <p>
+            Don't have an account?
+            <a href="/register">
+                Create one
+            </a>
+        </p>
+
+        <p>
+            Are you an administrator?
+            <a href="/admin/login">
+                Admin Portal
+            </a>
+        </p>
+
+        <p>
+            <a href="/">
+                ← Return to Home
+            </a>
+        </p>
+
+    </div>
+
+</div>
+
+</body>
+</html>

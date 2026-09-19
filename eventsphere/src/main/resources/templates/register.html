@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Create Account - EventSphere</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div class="form-page">
+
+    <div class="form-container">
+
+        <div class="form-logo">
+            E
+        </div>
+
+        <h1>Join EventSphere</h1>
+
+        <h2>
+            Create your student account
+        </h2>
+
+        <p class="error"
+           th:if="${error}"
+           th:text="${error}">
+        </p>
+
+        <form
+                th:action="@{/register}"
+                th:object="${user}"
+                method="post">
+
+            <label>Full Name</label>
+
+            <input
+                    type="text"
+                    th:field="*{name}"
+                    placeholder="Enter your name"
+                    required>
+
+            <label>Email Address</label>
+
+            <input
+                    type="email"
+                    th:field="*{email}"
+                    placeholder="student@example.com"
+                    required>
+
+            <label>Department</label>
+
+            <input
+                    type="text"
+                    th:field="*{department}"
+                    placeholder="Example: II CYS"
+                    required>
+
+            <label>Password</label>
+
+            <input
+                    type="password"
+                    th:field="*{password}"
+                    placeholder="Create a password"
+                    required>
+
+            <button type="submit">
+                Create Student Account
+            </button>
+
+        </form>
+
+        <p>
+            Already registered?
+            <a href="/login">
+                Login
+            </a>
+        </p>
+
+        <p>
+            <a href="/">
+                ← Return to Home
+            </a>
+        </p>
+
+    </div>
+
+</div>
+
+</body>
+</html>

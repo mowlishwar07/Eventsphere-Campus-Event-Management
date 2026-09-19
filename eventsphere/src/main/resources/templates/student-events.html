@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Events</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+<nav>
+
+    <h2>EventSphere</h2>
+
+    <div>
+        <a href="/student/dashboard">Dashboard</a>
+        <a href="/student/registrations">My Registrations</a>
+        <a href="/logout">Logout</a>
+    </div>
+
+</nav>
+
+<div class="container">
+
+    <h1>Available Events</h1>
+
+    <p class="success"
+       th:if="${success}"
+       th:text="${success}">
+    </p>
+
+    <p class="error"
+       th:if="${error}"
+       th:text="${error}">
+    </p>
+
+    <div class="event-grid">
+
+        <div class="event-card"
+             th:each="event : ${events}">
+
+            <h2 th:text="${event.eventName}"></h2>
+
+            <p>
+                <strong>Category:</strong>
+                <span th:text="${event.category}"></span>
+            </p>
+
+            <p>
+                <strong>Venue:</strong>
+                <span th:text="${event.venue}"></span>
+            </p>
+
+            <p>
+                <strong>Date:</strong>
+                <span th:text="${event.eventDate}"></span>
+            </p>
+
+            <p th:text="${event.description}"></p>
+
+            <p>
+                <strong>Status:</strong>
+                <span th:text="${event.status}"></span>
+            </p>
+
+            <form
+                th:if="${event.status.name() == 'OPEN'}"
+                th:action="@{/student/events/{id}/register(id=${event.id})}"
+                method="post">
+
+                <button type="submit">
+                    Register
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
