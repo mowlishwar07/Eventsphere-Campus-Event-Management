@@ -40,12 +40,27 @@
         <span>✓</span> <span th:text="${success}"></span>
     </div>
 
+    <!-- Search / Filter Bar -->
+    <form action="/admin/events" method="get" class="search-bar-form">
+        <div class="search-input-group">
+            <span class="search-icon">🔍</span>
+            <input
+                type="text"
+                name="keyword"
+                th:value="${keyword}"
+                placeholder="Search events by title, category, or venue...">
+            <button type="submit" class="btn btn-sm">Search</button>
+            <a th:if="${keyword != null and !keyword.isEmpty()}" href="/admin/events" class="btn btn-sm btn-secondary">Clear</a>
+        </div>
+    </form>
+
     <div class="table-wrapper" th:if="${!#lists.isEmpty(events)}">
         <table>
             <thead>
                 <tr>
                     <th>Event Name</th>
                     <th>Category</th>
+                    <th>Type</th>
                     <th>Venue</th>
                     <th>Event Date</th>
                     <th>Capacity</th>
@@ -60,6 +75,14 @@
                     </td>
                     <td>
                         <span class="event-category-badge" th:text="${event.category}">Category</span>
+                    </td>
+                    <td>
+                        <span th:if="${event.teamEvent}" class="badge badge-registered" style="font-size: 11.5px;">
+                            👥 Team (<span th:text="${event.maxTeamSize}">4</span>)
+                        </span>
+                        <span th:if="${!event.teamEvent}" style="color: var(--text-muted); font-size: 13px;">
+                            Solo
+                        </span>
                     </td>
                     <td th:text="${event.venue}">Venue</td>
                     <td th:text="${event.eventDate}">2026-10-15</td>

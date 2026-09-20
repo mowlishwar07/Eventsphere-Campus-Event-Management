@@ -32,6 +32,10 @@ public class Event {
 
     private int maxParticipants;
 
+    private boolean teamEvent = false;
+
+    private Integer maxTeamSize;
+
     @Enumerated(EnumType.STRING)
     private EventStatus status;
 
@@ -92,6 +96,22 @@ public class Event {
 
     public void setMaxParticipants(int maxParticipants) {
         this.maxParticipants = maxParticipants;
+    }
+
+    public boolean isTeamEvent() {
+        return teamEvent;
+    }
+
+    public void setTeamEvent(boolean teamEvent) {
+        this.teamEvent = teamEvent;
+    }
+
+    public Integer getMaxTeamSize() {
+        return maxTeamSize;
+    }
+
+    public void setMaxTeamSize(Integer maxTeamSize) {
+        this.maxTeamSize = maxTeamSize;
     }
 
     public EventStatus getStatus() {

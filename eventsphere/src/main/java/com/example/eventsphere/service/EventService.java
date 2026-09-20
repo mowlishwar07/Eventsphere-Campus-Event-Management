@@ -25,6 +25,13 @@ public class EventService {
         return eventRepository.findAllByOrderByEventDateAsc();
     }
 
+    public List<Event> searchEvents(String keyword) {
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            return eventRepository.searchEvents(keyword.trim());
+        }
+        return getAllEvents();
+    }
+
     public Optional<Event> getEventById(Long id) {
         return eventRepository.findById(id);
     }

@@ -33,6 +33,13 @@ public class RegistrationService {
         return registrationRepository.findAll();
     }
 
+    public List<Registration> searchRegistrations(String keyword) {
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            return registrationRepository.searchRegistrations(keyword.trim());
+        }
+        return getAllRegistrations();
+    }
+
     public Optional<Registration> getRegistrationById(Long id) {
         return registrationRepository.findById(id);
     }

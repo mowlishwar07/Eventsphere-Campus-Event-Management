@@ -1,6 +1,7 @@
 package com.example.eventsphere.controller;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.eventsphere.model.Event;
@@ -76,6 +78,7 @@ public class StudentController {
 
     @GetMapping("/events")
     public String events(
+            @RequestParam(name = "keyword", required = false) String keyword,
             HttpSession session,
             Model model) {
 
@@ -83,17 +86,92 @@ public class StudentController {
             return "redirect:/login";
         }
 
-        model.addAttribute(
-                "events",
-                eventService.getAllEvents()
-        );
+        List<Event> events;
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            events = eventService.searchEvents(keyword.trim());
+        } else {
+            events = eventService.getAllEvents();
+        }
+
+        model.addAttribute("events", events);
+        model.addAttribute("keyword", keyword);
 
         return "student-events";
+    }
+
+    @GetMapping("/events/{eventId}/register")
+    public String showEventRegistration(
+            @PathVariable Long eventId,
+            HttpSession session,
+            Model model,
+            RedirectAttributes redirectAttributes) {
+
+        if (!isStudent(session)) {
+            return "redirect:/login";
+        }
+
+        Long userId =
+                (Long) session.getAttribute("userId");
+
+        Optional<User> userOptional =
+                userService.getUserById(userId);
+
+        Optional<Event> eventOptional =
+                eventService.getEventById(eventId);
+
+        if (userOptional.isEmpty()
+                || eventOptional.isEmpty()) {
+
+            redirectAttributes.addFlashAttribute(
+                    "error",
+                    "Event or user not found."
+            );
+
+            return "redirect:/student/events";
+        }
+
+        Event event = eventOptional.get();
+        User user = userOptional.get();
+
+        if (event.getStatus() != EventStatus.OPEN) {
+
+            redirectAttributes.addFlashAttribute(
+                    "error",
+                    "Registration is closed for this event."
+            );
+
+            return "redirect:/student/events";
+        }
+
+        Optional<Registration> existing =
+                registrationService
+                        .findByUserAndEvent(user, event);
+
+        if (existing.isPresent()
+                && existing.get().getStatus()
+                        == RegistrationStatus.REGISTERED) {
+
+            redirectAttributes.addFlashAttribute(
+                    "error",
+                    "You have already registered for this event."
+            );
+
+            return "redirect:/student/events";
+        }
+
+        model.addAttribute("event", event);
+        model.addAttribute("user", user);
+
+        return "event-register";
     }
 
     @PostMapping("/events/{eventId}/register")
     public String registerForEvent(
             @PathVariable Long eventId,
+            @RequestParam(name = "teamName", required = false) String teamName,
+            @RequestParam(name = "memberRollNo", required = false) List<String> memberRollNos,
+            @RequestParam(name = "memberName", required = false) List<String> memberNames,
+            @RequestParam(name = "memberDept", required = false) List<String> memberDepts,
             HttpSession session,
             RedirectAttributes redirectAttributes) {
 
@@ -142,10 +220,47 @@ public class StudentController {
                 registrationService
                         .findByUserAndEvent(user, event);
 
+        // Build structured team members roster if team event or team info submitted
+        String formattedTeamMembers = null;
+        if (event.isTeamEvent()
+                || (teamName != null && !teamName.trim().isEmpty())) {
+
+            StringBuilder sb = new StringBuilder();
+            sb.append("Leader: ")
+              .append(user.getRollNumber() != null ? user.getRollNumber() : "N/A")
+              .append(" - ")
+              .append(user.getName())
+              .append(" (")
+              .append(user.getDepartment())
+              .append(")");
+
+            if (memberRollNos != null && memberNames != null) {
+                int count = 2;
+                for (int i = 0; i < memberRollNos.size(); i++) {
+                    String roll = memberRollNos.get(i) != null ? memberRollNos.get(i).trim() : "";
+                    String name = i < memberNames.size() && memberNames.get(i) != null ? memberNames.get(i).trim() : "";
+                    String dept = (memberDepts != null && i < memberDepts.size() && memberDepts.get(i) != null)
+                            ? memberDepts.get(i).trim() : "";
+
+                    if (!roll.isEmpty() || !name.isEmpty()) {
+                        sb.append("\nMember ").append(count++).append(": ")
+                          .append(roll.isEmpty() ? "N/A" : roll)
+                          .append(" - ")
+                          .append(name.isEmpty() ? "N/A" : name)
+                          .append(" (")
+                          .append(dept.isEmpty() ? "N/A" : dept)
+                          .append(")");
+                    }
+                }
+            }
+            formattedTeamMembers = sb.toString();
+        }
+
+        Registration registration;
+
         if (existing.isPresent()) {
 
-            Registration registration =
-                    existing.get();
+            registration = existing.get();
 
             if (registration.getStatus()
                     == RegistrationStatus.REGISTERED) {
@@ -177,9 +292,6 @@ public class StudentController {
                     LocalDate.now()
             );
 
-            registrationService
-                    .saveRegistration(registration);
-
         } else {
 
             if (registeredCount
@@ -193,30 +305,36 @@ public class StudentController {
                 return "redirect:/student/events";
             }
 
-            Registration registration =
-                    new Registration();
-
+            registration = new Registration();
             registration.setUser(user);
             registration.setEvent(event);
-
             registration.setRegistrationDate(
                     LocalDate.now()
             );
-
             registration.setStatus(
                     RegistrationStatus.REGISTERED
             );
-
-            registrationService
-                    .saveRegistration(registration);
         }
+
+        if (teamName != null && !teamName.trim().isEmpty()) {
+            registration.setTeamName(teamName.trim());
+        } else if (event.isTeamEvent()) {
+            registration.setTeamName("Team " + user.getName());
+        }
+
+        registration.setTeamMembers(formattedTeamMembers);
+
+        registrationService
+                .saveRegistration(registration);
 
         redirectAttributes.addFlashAttribute(
                 "success",
-                "Event registered successfully!"
+                event.isTeamEvent()
+                        ? "Team registration submitted successfully!"
+                        : "Event registered successfully!"
         );
 
-        return "redirect:/student/events";
+        return "redirect:/student/registrations";
     }
 
     @GetMapping("/registrations")

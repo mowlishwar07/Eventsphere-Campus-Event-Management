@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.example.eventsphere.model.Event;
 import com.example.eventsphere.model.Registration;
@@ -28,4 +30,13 @@ public interface RegistrationRepository
     );
 
     void deleteByEvent(Event event);
+
+    @Query("SELECT r FROM Registration r WHERE " +
+           "LOWER(r.user.name) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+           "LOWER(r.user.rollNumber) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+           "LOWER(r.user.department) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+           "LOWER(r.event.eventName) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+           "LOWER(r.teamName) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
+           "ORDER BY r.registrationDate DESC")
+    List<Registration> searchRegistrations(@Param("keyword") String keyword);
 }

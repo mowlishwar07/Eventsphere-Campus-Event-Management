@@ -36,15 +36,29 @@
         </div>
     </div>
 
+    <!-- Search / Filter Bar -->
+    <form action="/admin/registrations" method="get" class="search-bar-form">
+        <div class="search-input-group">
+            <span class="search-icon">🔍</span>
+            <input
+                type="text"
+                name="keyword"
+                th:value="${keyword}"
+                placeholder="Search by student name, roll no, department, event, or team...">
+            <button type="submit" class="btn btn-sm">Search</button>
+            <a th:if="${keyword != null and !keyword.isEmpty()}" href="/admin/registrations" class="btn btn-sm btn-secondary">Clear</a>
+        </div>
+    </form>
+
     <div class="table-wrapper" th:if="${!#lists.isEmpty(registrations)}">
         <table>
             <thead>
                 <tr>
                     <th>Roll / Reg No.</th>
-                    <th>Student Name</th>
-                    <th>Email Address</th>
+                    <th>Student / Lead</th>
                     <th>Department</th>
                     <th>Registered Event</th>
+                    <th>Team Details</th>
                     <th>Registration Date</th>
                     <th>Status</th>
                 </tr>
@@ -56,11 +70,24 @@
                     </td>
                     <td>
                         <strong th:text="${registration.user.name}">Student Name</strong>
+                        <div style="font-size: 12px; color: var(--text-muted);" th:text="${registration.user.email}">email</div>
                     </td>
-                    <td th:text="${registration.user.email}">student@example.com</td>
                     <td th:text="${registration.user.department}">Department</td>
                     <td>
                         <strong th:text="${registration.event.eventName}">Event Name</strong>
+                    </td>
+                    <td>
+                        <div th:if="${registration.teamName != null}">
+                            <strong style="color: #a5b4fc; font-size: 13px;">👥 <span th:text="${registration.teamName}">Team Name</span></strong>
+                            <div th:if="${registration.teamMembers != null}"
+                                 style="font-size: 11.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.4; white-space: pre-line;"
+                                 th:text="${registration.teamMembers}">
+                                Teammates
+                            </div>
+                        </div>
+                        <div th:if="${registration.teamName == null}">
+                            <span style="color: var(--text-muted); font-size: 12.5px;">Solo Registration</span>
+                        </div>
                     </td>
                     <td th:text="${registration.registrationDate}">2026-10-01</td>
                     <td>

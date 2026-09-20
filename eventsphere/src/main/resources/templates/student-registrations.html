@@ -55,6 +55,16 @@
                 <tr th:each="registration : ${registrations}">
                     <td>
                         <strong th:text="${registration.event.eventName}">Event Name</strong>
+                        <div th:if="${registration.teamName != null}" style="margin-top: 5px;">
+                            <span class="badge badge-registered" style="font-size: 11px; padding: 3px 8px;">
+                                👥 <span th:text="${registration.teamName}">Team Name</span>
+                            </span>
+                            <div th:if="${registration.teamMembers != null}"
+                                 style="font-size: 11.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.4; white-space: pre-line;"
+                                 th:text="${registration.teamMembers}">
+                                Teammates
+                            </div>
+                        </div>
                     </td>
                     <td th:text="${registration.event.eventDate}">2026-10-15</td>
                     <td th:text="${registration.event.venue}">Campus Auditorium</td>

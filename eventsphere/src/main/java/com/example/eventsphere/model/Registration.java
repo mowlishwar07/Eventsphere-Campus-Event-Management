@@ -2,6 +2,7 @@ package com.example.eventsphere.model;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -35,6 +36,11 @@ public class Registration {
     private Event event;
 
     private LocalDate registrationDate;
+
+    private String teamName;
+
+    @Column(columnDefinition = "TEXT")
+    private String teamMembers;
 
     @Enumerated(EnumType.STRING)
     private RegistrationStatus status;
@@ -72,6 +78,22 @@ public class Registration {
 
     public void setRegistrationDate(LocalDate registrationDate) {
         this.registrationDate = registrationDate;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
+    }
+
+    public String getTeamMembers() {
+        return teamMembers;
+    }
+
+    public void setTeamMembers(String teamMembers) {
+        this.teamMembers = teamMembers;
     }
 
     public RegistrationStatus getStatus() {

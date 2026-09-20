@@ -896,6 +896,49 @@ button:active {
     margin: 0;
 }
 
+/* ================= SEARCH BAR ================= */
+
+.search-bar-form {
+    margin-bottom: 24px;
+}
+
+.search-input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(15, 23, 42, 0.75);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 6px 14px;
+    transition: all 0.2s ease;
+    max-width: 600px;
+}
+
+.search-input-group:focus-within {
+    border-color: #818cf8;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+.search-input-group .search-icon {
+    font-size: 16px;
+    color: var(--text-muted);
+}
+
+.search-input-group input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 14.5px;
+    padding: 6px 0;
+}
+
+.search-input-group input::placeholder {
+    color: var(--text-muted);
+}
+
 /* ================= TABLES ================= */
 
 .table-wrapper {

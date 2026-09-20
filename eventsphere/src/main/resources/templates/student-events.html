@@ -43,6 +43,20 @@
         <span>⚠</span> <span th:text="${error}"></span>
     </div>
 
+    <!-- Search / Filter Bar -->
+    <form action="/student/events" method="get" class="search-bar-form">
+        <div class="search-input-group">
+            <span class="search-icon">🔍</span>
+            <input
+                type="text"
+                name="keyword"
+                th:value="${keyword}"
+                placeholder="Search events by title, category, or venue...">
+            <button type="submit" class="btn btn-sm">Search</button>
+            <a th:if="${keyword != null and !keyword.isEmpty()}" href="/student/events" class="btn btn-sm btn-secondary">Clear</a>
+        </div>
+    </form>
+
     <div class="event-grid" th:if="${!#lists.isEmpty(events)}">
         <div class="event-card" th:each="event : ${events}">
             <div class="event-card-top">
@@ -64,6 +78,15 @@
                         <span class="event-meta-icon">👥</span>
                         <span>Capacity: <strong th:text="${event.maxParticipants}">100</strong> seats</span>
                     </div>
+                    <div class="event-meta-item">
+                        <span class="event-meta-icon">🏷️</span>
+                        <span th:if="${event.teamEvent}" style="color: #a5b4fc; font-weight: 600;">
+                            Team Event (Max <span th:text="${event.maxTeamSize}">4</span> members)
+                        </span>
+                        <span th:if="${!event.teamEvent}" style="color: #5eead4;">
+                            Individual (Solo)
+                        </span>
+                    </div>
                 </div>
 
                 <p class="event-desc" th:text="${event.description}">
@@ -81,7 +104,15 @@
                 </div>
 
                 <div>
-                    <form th:if="${event.status.name() == 'OPEN'}"
+                    <!-- Team Event Registration Button -->
+                    <a th:if="${event.status.name() == 'OPEN' and event.teamEvent}"
+                       th:href="@{/student/events/{id}/register(id=${event.id})}"
+                       class="btn btn-sm">
+                        👥 Register Team
+                    </a>
+
+                    <!-- Solo Event Direct Registration Form -->
+                    <form th:if="${event.status.name() == 'OPEN' and !event.teamEvent}"
                           th:action="@{/student/events/{id}/register(id=${event.id})}"
                           method="post">
                         <button type="submit" class="btn btn-sm">

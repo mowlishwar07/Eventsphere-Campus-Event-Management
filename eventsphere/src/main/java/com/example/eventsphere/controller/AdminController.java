@@ -1,5 +1,6 @@
 package com.example.eventsphere.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
@@ -9,10 +10,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.eventsphere.model.Event;
 import com.example.eventsphere.model.EventStatus;
+import com.example.eventsphere.model.Registration;
 import com.example.eventsphere.model.Role;
 import com.example.eventsphere.service.EventService;
 import com.example.eventsphere.service.RegistrationService;
@@ -54,6 +57,7 @@ public class AdminController {
 
     @GetMapping("/events")
     public String events(
+            @RequestParam(name = "keyword", required = false) String keyword,
             HttpSession session,
             Model model) {
 
@@ -61,10 +65,15 @@ public class AdminController {
             return "redirect:/login";
         }
 
-        model.addAttribute(
-                "events",
-                eventService.getAllEvents()
-        );
+        List<Event> events;
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            events = eventService.searchEvents(keyword.trim());
+        } else {
+            events = eventService.getAllEvents();
+        }
+
+        model.addAttribute("events", events);
+        model.addAttribute("keyword", keyword);
 
         return "admin-events";
     }
@@ -168,6 +177,7 @@ public class AdminController {
 
     @GetMapping("/registrations")
     public String registrations(
+            @RequestParam(name = "keyword", required = false) String keyword,
             HttpSession session,
             Model model) {
 
@@ -175,11 +185,15 @@ public class AdminController {
             return "redirect:/login";
         }
 
-        model.addAttribute(
-                "registrations",
-                registrationService
-                        .getAllRegistrations()
-        );
+        List<Registration> registrations;
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            registrations = registrationService.searchRegistrations(keyword.trim());
+        } else {
+            registrations = registrationService.getAllRegistrations();
+        }
+
+        model.addAttribute("registrations", registrations);
+        model.addAttribute("keyword", keyword);
 
         return "admin-registrations";
     }
