@@ -1,93 +1,101 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <title>My Registrations</title>
-
-    <link rel="stylesheet"
-          th:href="@{/css/style.css}">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Registrations - EventSphere</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-
 <body>
 
 <nav>
+    <a href="/student/dashboard" class="brand-link">
+        <div class="brand-icon">E</div>
+        <span class="brand-title">EventSphere</span>
+    </a>
 
-    <h2>EventSphere</h2>
-
-    <div>
+    <div class="nav-links">
         <a href="/student/dashboard">Dashboard</a>
-        <a href="/student/events">Events</a>
-        <a href="/logout">Logout</a>
+        <a href="/student/events">Discover Events</a>
+        <a href="/student/registrations" class="active">My Registrations</a>
+        <a href="/logout" class="nav-btn-logout">Logout</a>
     </div>
-
 </nav>
 
 <div class="container">
+    <div class="page-header">
+        <div class="page-title-group">
+            <h1>My Registered Events</h1>
+            <p>Track your registration confirmations, venues, dates, or cancel participation.</p>
+        </div>
+        <div class="page-actions">
+            <a href="/student/events" class="btn">
+                <span>＋</span> Register for More Events
+            </a>
+        </div>
+    </div>
 
-    <h1>My Registrations</h1>
+    <div class="alert alert-success" th:if="${success}">
+        <span>✓</span> <span th:text="${success}"></span>
+    </div>
 
-    <p class="success"
-       th:if="${success}"
-       th:text="${success}">
-    </p>
+    <div class="table-wrapper" th:if="${!#lists.isEmpty(registrations)}">
+        <table>
+            <thead>
+                <tr>
+                    <th>Event Name</th>
+                    <th>Event Date</th>
+                    <th>Venue</th>
+                    <th>Registered On</th>
+                    <th>Status</th>
+                    <th style="text-align: right;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="registration : ${registrations}">
+                    <td>
+                        <strong th:text="${registration.event.eventName}">Event Name</strong>
+                    </td>
+                    <td th:text="${registration.event.eventDate}">2026-10-15</td>
+                    <td th:text="${registration.event.venue}">Campus Auditorium</td>
+                    <td th:text="${registration.registrationDate}">2026-09-20</td>
+                    <td>
+                        <span class="badge"
+                              th:classappend="${registration.status.name() == 'REGISTERED' ? 'badge-registered' : 'badge-cancelled'}">
+                            <span class="badge-dot"></span>
+                            <span th:text="${registration.status}">REGISTERED</span>
+                        </span>
+                    </td>
+                    <td style="text-align: right;">
+                        <form th:if="${registration.status.name() == 'REGISTERED'}"
+                              th:action="@{/student/registrations/{id}/cancel(id=${registration.id})}"
+                              method="post"
+                              style="display: inline-block; margin: 0;">
+                            <button class="action-btn action-delete"
+                                    type="submit"
+                                    onclick="return confirm('Are you sure you want to cancel your registration for this event?');">
+                                Cancel Registration
+                            </button>
+                        </form>
 
-    <table>
+                        <span th:if="${registration.status.name() != 'REGISTERED'}"
+                              style="color: var(--text-muted); font-size: 13px;">
+                            Cancelled
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-        <thead>
-
-        <tr>
-            <th>Event</th>
-            <th>Date</th>
-            <th>Venue</th>
-            <th>Registered On</th>
-            <th>Status</th>
-            <th>Action</th>
-        </tr>
-
-        </thead>
-
-        <tbody>
-
-        <tr th:each="registration : ${registrations}">
-
-            <td th:text="${registration.event.eventName}"></td>
-
-            <td th:text="${registration.event.eventDate}"></td>
-
-            <td th:text="${registration.event.venue}"></td>
-
-            <td th:text="${registration.registrationDate}"></td>
-
-            <td th:text="${registration.status}"></td>
-
-            <td>
-
-                <form
-                    th:if="${registration.status.name() == 'REGISTERED'}"
-                    th:action="@{/student/registrations/{id}/cancel(id=${registration.id})}"
-                    method="post">
-
-                    <button class="danger"
-                            type="submit">
-
-                        Cancel
-
-                    </button>
-
-                </form>
-
-            </td>
-
-        </tr>
-
-        </tbody>
-
-    </table>
-
+    <div class="empty-state" th:if="${#lists.isEmpty(registrations)}">
+        <div class="empty-icon">🎟️</div>
+        <h3>No Registrations Yet</h3>
+        <p>You haven't registered for any campus events yet. Explore upcoming events and sign up today!</p>
+        <a href="/student/events" class="btn">
+            Browse Available Events
+        </a>
+    </div>
 </div>
 
 </body>

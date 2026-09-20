@@ -1,90 +1,68 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Login - EventSphere</title>
-
-    <link rel="stylesheet"
-          th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-
 <body>
 
 <div class="form-page">
-
     <div class="form-container">
-
-        <div class="form-logo">
-            E
-        </div>
+        <div class="form-logo">E</div>
 
         <h1>Welcome Back</h1>
+        <h2>Sign in to your student account</h2>
 
-        <h2>
-            Login to your EventSphere student account
-        </h2>
+        <div class="alert alert-success" th:if="${param.registered}">
+            <span>✓</span> Account created successfully. You can now login.
+        </div>
 
-        <p class="success"
-           th:if="${param.registered}">
+        <div class="alert alert-error" th:if="${error}">
+            <span>⚠</span> <span th:text="${error}"></span>
+        </div>
 
-            Account created successfully.
-            You can login now.
-
-        </p>
-
-        <p class="error"
-           th:if="${error}"
-           th:text="${error}">
-        </p>
-
-        <form action="/login"
-              method="post">
-
-            <label>Email Address</label>
-
-            <input
+        <form action="/login" method="post">
+            <div class="form-group">
+                <label for="email">Student Email</label>
+                <input
+                    id="email"
                     type="email"
                     name="email"
                     placeholder="student@example.com"
+                    autocomplete="email"
                     required>
+            </div>
 
-            <label>Password</label>
-
-            <input
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input
+                    id="password"
                     type="password"
                     name="password"
                     placeholder="Enter your password"
+                    autocomplete="current-password"
                     required>
+            </div>
 
-            <button type="submit">
-                Login to EventSphere
+            <button type="submit" class="btn">
+                Sign In to EventSphere
             </button>
-
         </form>
 
-        <p>
-            Don't have an account?
-            <a href="/register">
-                Create one
-            </a>
-        </p>
-
-        <p>
-            Are you an administrator?
-            <a href="/admin/login">
-                Admin Portal
-            </a>
-        </p>
-
-        <p>
-            <a href="/">
-                ← Return to Home
-            </a>
-        </p>
-
+        <div class="form-footer-links">
+            <p>
+                Don't have an account? <a href="/register">Create Account</a>
+            </p>
+            <p>
+                Staff or Organizer? <a href="/admin/login">Admin Portal</a>
+            </p>
+            <p>
+                <a href="/">← Return to Home</a>
+            </p>
+        </div>
     </div>
-
 </div>
 
 </body>

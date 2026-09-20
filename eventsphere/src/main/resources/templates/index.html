@@ -1,64 +1,66 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
-    <title>EventSphere</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventSphere - Campus Event Management</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-
 <body>
 
 <nav>
+    <a href="/" class="brand-link">
+        <div class="brand-icon">E</div>
+        <span class="brand-title">EventSphere</span>
+    </a>
 
-    <h2>EventSphere</h2>
-
-    <div>
+    <div class="nav-links">
         <a href="/login">Student Login</a>
         <a href="/register">Sign Up</a>
-        <a href="/admin/login">Admin</a>
+        <a href="/admin/login" class="btn-secondary">Admin Portal</a>
     </div>
-
 </nav>
 
-
 <section class="hero">
-
     <div class="hero-badge">
-        CAMPUS EVENTS • ONE PLATFORM
+        ✨ Campus Events &bull; One Central Platform
     </div>
 
     <h1>EventSphere</h1>
 
-    <h2>
-        Discover. Participate. Connect.
-    </h2>
+    <h2>Discover. Participate. Connect.</h2>
 
     <p>
-        Your central platform for discovering campus events,
-        registering for competitions, workshops and activities,
-        and managing everything from one place.
+        Your all-in-one platform for discovering campus events, registering for
+        competitions, hackathons, and workshops, and keeping track of all your activities seamlessly.
     </p>
 
     <div class="hero-actions">
-
-        <a href="/register"
-           class="btn">
-            Create Account
+        <a href="/register" class="btn">
+            Create Student Account
         </a>
-
-        <a href="/login"
-           class="btn btn-secondary">
+        <a href="/login" class="btn btn-secondary">
             Student Login
         </a>
-
-        <a href="/admin/login"
-           class="btn btn-secondary">
+        <a href="/admin/login" class="btn btn-secondary">
             Admin Portal
         </a>
-
     </div>
 
+    <div class="hero-stats">
+        <div class="hero-stat-item">
+            <div class="hero-stat-number">100%</div>
+            <div class="hero-stat-label">Seamless Registration</div>
+        </div>
+        <div class="hero-stat-item">
+            <div class="hero-stat-number">Real-Time</div>
+            <div class="hero-stat-label">Event Updates</div>
+        </div>
+        <div class="hero-stat-item">
+            <div class="hero-stat-number">Direct</div>
+            <div class="hero-stat-label">Admin Management</div>
+        </div>
+    </div>
 </section>
 
 </body>

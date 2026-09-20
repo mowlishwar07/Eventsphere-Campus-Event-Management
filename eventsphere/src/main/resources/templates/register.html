@@ -1,94 +1,89 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Account - EventSphere</title>
-
-    <link rel="stylesheet"
-          th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-
 <body>
 
 <div class="form-page">
-
     <div class="form-container">
-
-        <div class="form-logo">
-            E
-        </div>
+        <div class="form-logo">E</div>
 
         <h1>Join EventSphere</h1>
+        <h2>Create your student account</h2>
 
-        <h2>
-            Create your student account
-        </h2>
+        <div class="alert alert-error" th:if="${error}">
+            <span>⚠</span> <span th:text="${error}"></span>
+        </div>
 
-        <p class="error"
-           th:if="${error}"
-           th:text="${error}">
-        </p>
-
-        <form
-                th:action="@{/register}"
-                th:object="${user}"
-                method="post">
-
-            <label>Full Name</label>
-
-            <input
+        <form th:action="@{/register}" th:object="${user}" method="post">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input
+                    id="name"
                     type="text"
                     th:field="*{name}"
-                    placeholder="Enter your name"
+                    placeholder="e.g. Alex Johnson"
                     required>
+            </div>
 
-            <label>Email Address</label>
-
-            <input
+            <div class="form-group">
+                <label for="email">College Email Address</label>
+                <input
+                    id="email"
                     type="email"
                     th:field="*{email}"
                     placeholder="student@example.com"
                     required>
+            </div>
 
-            <label>Department</label>
+            <div class="form-group">
+                <label for="rollNumber">Register / Roll No.</label>
+                <input
+                    id="rollNumber"
+                    type="text"
+                    th:field="*{rollNumber}"
+                    placeholder="e.g. 21CS101 / 717821P101"
+                    required>
+            </div>
 
-            <input
+            <div class="form-group">
+                <label for="department">Department & Year</label>
+                <input
+                    id="department"
                     type="text"
                     th:field="*{department}"
-                    placeholder="Example: II CYS"
+                    placeholder="e.g. Computer Science - Year 3"
                     required>
+            </div>
 
-            <label>Password</label>
-
-            <input
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input
+                    id="password"
                     type="password"
                     th:field="*{password}"
-                    placeholder="Create a password"
+                    placeholder="Create a strong password"
                     required>
+            </div>
 
-            <button type="submit">
-                Create Student Account
+            <button type="submit" class="btn">
+                Create Account
             </button>
-
         </form>
 
-        <p>
-            Already registered?
-            <a href="/login">
-                Login
-            </a>
-        </p>
-
-        <p>
-            <a href="/">
-                ← Return to Home
-            </a>
-        </p>
-
+        <div class="form-footer-links">
+            <p>
+                Already have an account? <a href="/login">Sign In</a>
+            </p>
+            <p>
+                <a href="/">← Return to Home</a>
+            </p>
+        </div>
     </div>
-
 </div>
 
 </body>

@@ -26,6 +26,8 @@ public class User {
 
     private String department;
 
+    private String rollNumber;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -70,6 +72,14 @@ public class User {
 
     public void setDepartment(String department) {
         this.department = department;
+    }
+
+    public String getRollNumber() {
+        return rollNumber;
+    }
+
+    public void setRollNumber(String rollNumber) {
+        this.rollNumber = rollNumber;
     }
 
     public Role getRole() {

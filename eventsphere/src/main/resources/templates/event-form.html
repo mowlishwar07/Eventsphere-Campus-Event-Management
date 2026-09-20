@@ -1,111 +1,124 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <title>Event Form</title>
-
-    <link rel="stylesheet"
-          th:href="@{/css/style.css}">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${event.id != null ? 'Edit Event - EventSphere' : 'Create Event - EventSphere'}">Event Form</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-
 <body>
 
 <nav>
+    <a href="/admin/dashboard" class="brand-link">
+        <div class="brand-icon" style="background: linear-gradient(135deg, #f59e0b, #ef4444);">A</div>
+        <span class="brand-title">EventSphere</span>
+        <span class="brand-badge">Admin</span>
+    </a>
 
-    <h2>EventSphere Admin</h2>
-
-    <div>
+    <div class="nav-links">
         <a href="/admin/dashboard">Dashboard</a>
-        <a href="/admin/events">Events</a>
-        <a href="/logout">Logout</a>
+        <a href="/admin/events" class="active">Events</a>
+        <a href="/logout" class="nav-btn-logout">Logout</a>
     </div>
-
 </nav>
 
-<div class="form-container">
+<div class="container">
+    <div class="form-card-wrapper">
+        <div class="page-heading" style="text-align: center; margin-bottom: 24px;">
+            <h1 style="justify-content: center;" th:text="${event.id != null ? 'Edit Campus Event' : 'Create New Campus Event'}">
+                Event Details
+            </h1>
+            <p>Fill out the event specifics, venue, scheduling, and capacity limits below.</p>
+        </div>
 
-    <h1>Event Details</h1>
+        <div class="form-card">
+            <form th:action="@{/admin/events/save}" th:object="${event}" method="post">
+                <input type="hidden" th:field="*{id}">
 
-    <form
-        th:action="@{/admin/events/save}"
-        th:object="${event}"
-        method="post">
+                <div class="form-group">
+                    <label for="eventName">Event Name</label>
+                    <input
+                        id="eventName"
+                        type="text"
+                        th:field="*{eventName}"
+                        placeholder="e.g. AI & Robotics Hackathon 2026"
+                        required>
+                </div>
 
-        <input
-            type="hidden"
-            th:field="*{id}">
+                <div class="form-group">
+                    <label for="description">Event Description</label>
+                    <textarea
+                        id="description"
+                        th:field="*{description}"
+                        placeholder="Provide details about the agenda, prerequisites, prizes, and schedule..."
+                        rows="4"
+                        required></textarea>
+                </div>
 
-        <label>Event Name</label>
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <input
+                            id="category"
+                            type="text"
+                            th:field="*{category}"
+                            placeholder="e.g. Technical, Workshop, Cultural"
+                            required>
+                    </div>
 
-        <input
-            type="text"
-            th:field="*{eventName}"
-            required>
+                    <div class="form-group">
+                        <label for="venue">Venue / Location</label>
+                        <input
+                            id="venue"
+                            type="text"
+                            th:field="*{venue}"
+                            placeholder="e.g. Main Auditorium, Lab 3"
+                            required>
+                    </div>
+                </div>
 
-        <label>Description</label>
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label for="eventDate">Event Date</label>
+                        <input
+                            id="eventDate"
+                            type="date"
+                            th:field="*{eventDate}"
+                            required>
+                    </div>
 
-        <textarea
-            th:field="*{description}"
-            required>
-        </textarea>
+                    <div class="form-group">
+                        <label for="maxParticipants">Maximum Capacity</label>
+                        <input
+                            id="maxParticipants"
+                            type="number"
+                            min="1"
+                            th:field="*{maxParticipants}"
+                            placeholder="e.g. 100"
+                            required>
+                    </div>
+                </div>
 
-        <label>Category</label>
+                <div class="form-group">
+                    <label for="status">Event Status</label>
+                    <select id="status" th:field="*{status}">
+                        <option value="OPEN">OPEN - Accepting Registrations</option>
+                        <option value="CLOSED">CLOSED - Registration Closed</option>
+                        <option value="COMPLETED">COMPLETED - Event Finished</option>
+                    </select>
+                </div>
 
-        <input
-            type="text"
-            th:field="*{category}"
-            required>
-
-        <label>Venue</label>
-
-        <input
-            type="text"
-            th:field="*{venue}"
-            required>
-
-        <label>Event Date</label>
-
-        <input
-            type="date"
-            th:field="*{eventDate}"
-            required>
-
-        <label>Maximum Participants</label>
-
-        <input
-            type="number"
-            min="1"
-            th:field="*{maxParticipants}"
-            required>
-
-        <label>Status</label>
-
-        <select th:field="*{status}">
-
-            <option value="OPEN">
-                OPEN
-            </option>
-
-            <option value="CLOSED">
-                CLOSED
-            </option>
-
-            <option value="COMPLETED">
-                COMPLETED
-            </option>
-
-        </select>
-
-        <button type="submit">
-            Save Event
-        </button>
-
-    </form>
-
+                <div class="form-actions">
+                    <button type="submit" class="btn">
+                        <span>💾</span> <span th:text="${event.id != null ? 'Update Event' : 'Publish Event'}">Save Event</span>
+                    </button>
+                    <a href="/admin/events" class="btn btn-secondary">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 </body>

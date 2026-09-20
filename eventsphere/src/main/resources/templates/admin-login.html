@@ -1,77 +1,61 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Portal - EventSphere</title>
-
-    <link rel="stylesheet"
-          th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-
 <body>
 
 <div class="form-page">
-
     <div class="form-container">
-
-        <div class="form-logo">
-            A
-        </div>
+        <div class="form-logo" style="background: linear-gradient(135deg, #f59e0b, #ef4444);">A</div>
 
         <h1>Admin Portal</h1>
+        <h2>Sign in with organizer credentials</h2>
 
-        <h2>
-            Manage EventSphere events and registrations
-        </h2>
+        <div class="alert alert-error" th:if="${error}">
+            <span>⚠</span> <span th:text="${error}"></span>
+        </div>
 
-        <p class="error"
-           th:if="${error}"
-           th:text="${error}">
-        </p>
-
-        <form
-                action="/admin/login"
-                method="post">
-
-            <label>Admin Email</label>
-
-            <input
+        <form action="/admin/login" method="post">
+            <div class="form-group">
+                <label for="adminEmail">Admin Email</label>
+                <input
+                    id="adminEmail"
                     type="email"
                     name="email"
                     placeholder="admin@eventsphere.com"
+                    autocomplete="email"
                     required>
+            </div>
 
-            <label>Password</label>
-
-            <input
+            <div class="form-group">
+                <label for="adminPassword">Password</label>
+                <input
+                    id="adminPassword"
                     type="password"
                     name="password"
                     placeholder="Enter admin password"
+                    autocomplete="current-password"
                     required>
+            </div>
 
-            <button type="submit">
+            <button type="submit" class="btn" style="background: linear-gradient(135deg, #f59e0b, #ea580c);">
                 Enter Admin Dashboard
             </button>
-
         </form>
 
-        <p>
-            Student account?
-            <a href="/login">
-                Student Login
-            </a>
-        </p>
-
-        <p>
-            <a href="/">
-                ← Return to Home
-            </a>
-        </p>
-
+        <div class="form-footer-links">
+            <p>
+                Student account? <a href="/login">Student Login</a>
+            </p>
+            <p>
+                <a href="/">← Return to Home</a>
+            </p>
+        </div>
     </div>
-
 </div>
 
 </body>
